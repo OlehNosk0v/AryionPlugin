@@ -4,7 +4,7 @@ This script is written specifically for aryion.com users to simplify life there.
 
 Tampermonkey required: https://www.tampermonkey.net
 
-When Tampermonkey is already installed on your browser, then  [just click this link and the script will install](https://github.com/OlehNosk0v/AryionPlugins/raw/main/AryionPlugins.user.js). Tampermonkey will automatically prompt you to install the script.
+When Tampermonkey is already installed on your browser, then  [just click this link and the script will install](https://github.com/OlehNosk0v/AryionPlugin/raw/main/AryionPlugins.user.js). Tampermonkey will automatically prompt you to install the script.
 
 Hotkeys:
 + LeftArrow/RighArrow - Previous/Next picture.
@@ -24,7 +24,7 @@ Also, a field for entering numbers and a Download button will appear next to the
 
 Требуется Tampermonkey: https://www.tampermonkey.net
 
-Когда Tampermonkey уже установлен на вашем браузере, то [просто нажми на эту ссылку и скрипт установиться](https://github.com/OlehNosk0v/AryionPlugins/raw/main/AryionPlugins.user.js). Tampermonkey автоматически предложит вам установить этот скрипт. 
+Когда Tampermonkey уже установлен на вашем браузере, то [просто нажми на эту ссылку и скрипт установиться](https://github.com/OlehNosk0v/AryionPlugin/raw/main/AryionPlugins.user.js). Tampermonkey автоматически предложит вам установить этот скрипт. 
 
 Горячие клавиши:
 + LeftArrow/RighArrow - Предыдущее/Следующее изображение.
