@@ -32,7 +32,7 @@ const DownloadComicPage = async () => {
 }
 
 const DownloadComics = async () =>{
-    let i = Number(document.getElementById("PagesComics").value);
+    let i = Number(document.getElementById("PagesComics").value)-1;
     if (i > 0){
         localStorage.setItem('I', i);
         await DownloadComicPage();
@@ -127,7 +127,7 @@ document.getElementById('BUTTONDOWN').onclick = async () => {
 
 const blockPage = () => {
     const waitBanner = document.createElement('div');
-    waitBanner.setAttribute('style', 'z-index: 999999999; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #00000055; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 300%; text-shadow: 0 0 25px #000')
+    waitBanner.setAttribute('style', 'z-index: 999999999; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #00000055; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 300%; text-shadow: 0 0 25px #000;')
     waitBanner.innerText = 'Wait please, comic is downloading...'
     waitBanner.id = "BlockPage";
     document.querySelector('html').setAttribute('style', 'height: 100%; overflow: hidden')
@@ -159,7 +159,7 @@ window.addEventListener('load', async () => {
         } else {
             localStorage.setItem('I', pagesToDownload - 1);
         }
-        if (nextButton) {
+        if (nextButton && pagesToDownload >= 1) {
             blockPage();
         }
         console.log('working...')
