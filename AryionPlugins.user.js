@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AryionPlugins
 // @namespace    http://tampermonkey.net/
-// @version      1.0.7
+// @version      1.0.8
 // @description  A simple script for easy viewing of artwork and comics.
 // @license      MIT
 // @author       OlehNoskov
@@ -33,8 +33,8 @@ const DownloadComicPage = async () => {
 
 const DownloadComics = async () =>{
     let i = Number(document.getElementById("PagesComics").value)-1;
-    if (i > 0){
-        localStorage.setItem('I', i);
+    if (i >= 0){
+        localStorage.setItem(authorName, i);
         await DownloadComicPage();
         getNextButton().click()
     }
@@ -106,10 +106,10 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-
+const authorName = (document.getElementsByClassName('user-link')[1]).textContent
 const input = document.createElement("input");
 input.type = "number";
-input.value = localStorage.getItem("I");
+input.value = localStorage.getItem(authorName);
 input.id = "PagesComics";
 let fragment = document.getElementsByClassName('func-box')[0];
 fragment.appendChild(input);
@@ -127,7 +127,7 @@ document.getElementById('BUTTONDOWN').onclick = async () => {
 
 const blockPage = () => {
     const waitBanner = document.createElement('div');
-    waitBanner.setAttribute('style', 'z-index: 999999999; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #00000055; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 300%; text-shadow: 0 0 25px #000;')
+    waitBanner.setAttribute('style', 'z-index: 999999999; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #00000055; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 300%; text-shadow: 0 0 25px #000')
     waitBanner.innerText = 'Wait please, comic is downloading...'
     waitBanner.id = "BlockPage";
     document.querySelector('html').setAttribute('style', 'height: 100%; overflow: hidden')
@@ -148,16 +148,16 @@ window.addEventListener('load', async () => {
             break;
         }
     }
-    const pagesToDownload = localStorage.getItem('I');
+    const pagesToDownload = localStorage.getItem(authorName);
     console.log("start")
     if (pagesToDownload >= 1) {
         console.log(nextButton)
         await delay(1000)
         if (!nextButton || nextButton === null) {
            console.log(nextButton);
-           localStorage.setItem("I", 0);
+           localStorage.setItem(authorName, 0);
         } else {
-            localStorage.setItem('I', pagesToDownload - 1);
+            localStorage.setItem(authorName, pagesToDownload - 1);
         }
         if (nextButton && pagesToDownload >= 1) {
             blockPage();
