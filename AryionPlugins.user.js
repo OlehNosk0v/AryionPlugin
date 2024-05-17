@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AryionPlugins
 // @namespace    http://tampermonkey.net/
-// @version      1.0.8
+// @version      1.0.9
 // @description  A simple script for easy viewing of artwork and comics.
 // @license      MIT
 // @author       OlehNoskov
@@ -29,6 +29,19 @@ const DownloadComicPage = async () => {
     link.click();
 
     document.body.removeChild(link);
+}
+
+const CheckCapthca = async () => {
+    await delay(1000)
+    //let CheckBox = document.querySelectorAll("head > title")[0].textContent
+    let CheckBox = document.body.className
+    if (CheckBox == "no-js") {
+        console.log("CLOUDFLARE")
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 const DownloadComics = async () =>{
@@ -105,7 +118,10 @@ document.addEventListener('keydown', function(event) {
      button.click();
   }
 });
-
+if (await CheckCapthca()){
+    return;
+}
+else {
 const authorName = (document.getElementsByClassName('user-link')[1]).textContent
 const input = document.createElement("input");
 input.type = "number";
@@ -120,6 +136,8 @@ buttoninput.value = "Download";
 
 fragment = document.getElementsByClassName('func-box')[0];
 fragment.appendChild(buttoninput);
+}
+
 
 document.getElementById('BUTTONDOWN').onclick = async () => {
    await DownloadComics();
@@ -139,6 +157,10 @@ async function delay(ms) {
 }
 
 window.addEventListener('load', async () => {
+    if (await CheckCapthca()) {
+        console.log("Capthca")
+        return;
+    }
     let nextButton = await getNextButton();
     let tryi = 0;
     for (let tryi = 0; tryi < 30; ++tryi){
