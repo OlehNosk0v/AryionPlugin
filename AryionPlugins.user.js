@@ -88,10 +88,6 @@ const getNextButton = () => {
     return button
 }
 
-
-
-console.log("...Start")
-
 document.addEventListener('keydown', function(event) {
   let button = null;
   if( event.target.nodeName == "INPUT" || event.target.nodeName == "TEXTAREA" ) return;
@@ -176,13 +172,9 @@ window.addEventListener('load', async () => {
         }
     }
     const pagesToDownload = localStorage.getItem((document.getElementsByClassName('user-link')[1]).textContent);
-    console.log(pagesToDownload)
-    console.log("start")
     if (pagesToDownload > 0) {
-        console.log(nextButton)
         await delay(1000)
         if (!nextButton || nextButton === null) {
-           console.log(nextButton);
            localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, 0);
         } else {
             localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, pagesToDownload - 1);
