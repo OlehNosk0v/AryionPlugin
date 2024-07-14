@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AryionPlugins
 // @namespace    http://tampermonkey.net/
-// @version      1.0.9
+// @version      1.0.10
 // @description  A simple script for easy viewing of artwork and comics.
 // @license      MIT
 // @author       OlehNoskov
@@ -32,7 +32,7 @@ const DownloadComicPage = async () => {
 }
 
 const CheckCapthca = async () => {
-    await delay(1000)
+    await delay(100)
     //let CheckBox = document.querySelectorAll("head > title")[0].textContent
     let CheckBox = document.body.className
     if (CheckBox == "no-js") {
@@ -41,13 +41,14 @@ const CheckCapthca = async () => {
     }
     else {
         return false;
+        console.log("")
     }
 }
 
 const DownloadComics = async () =>{
     let i = Number(document.getElementById("PagesComics").value)-1;
     if (i >= 0){
-        localStorage.setItem(authorName, i);
+        localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, i);
         await DownloadComicPage();
         getNextButton().click()
     }
@@ -88,6 +89,8 @@ const getNextButton = () => {
 }
 
 
+
+console.log("...Start")
 
 document.addEventListener('keydown', function(event) {
   let button = null;
@@ -157,6 +160,8 @@ async function delay(ms) {
 }
 
 window.addEventListener('load', async () => {
+//window.onload = async () => {
+    console.log("start")
     if (await CheckCapthca()) {
         console.log("Capthca")
         return;
@@ -170,18 +175,19 @@ window.addEventListener('load', async () => {
             break;
         }
     }
-    const pagesToDownload = localStorage.getItem(authorName);
+    const pagesToDownload = localStorage.getItem((document.getElementsByClassName('user-link')[1]).textContent);
+    console.log(pagesToDownload)
     console.log("start")
-    if (pagesToDownload >= 1) {
+    if (pagesToDownload > 0) {
         console.log(nextButton)
         await delay(1000)
         if (!nextButton || nextButton === null) {
            console.log(nextButton);
-           localStorage.setItem(authorName, 0);
+           localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, 0);
         } else {
-            localStorage.setItem(authorName, pagesToDownload - 1);
+            localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, pagesToDownload - 1);
         }
-        if (nextButton && pagesToDownload >= 1) {
+        if (nextButton && pagesToDownload >= 0) {
             blockPage();
         }
         console.log('working...')
