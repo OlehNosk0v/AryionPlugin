@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AryionPlugins
 // @namespace    http://tampermonkey.net/
-// @version      1.0.10
+// @version      1.0.11
 // @description  A simple script for easy viewing of artwork and comics.
 // @license      MIT
 // @author       OlehNoskov
@@ -41,7 +41,6 @@ const CheckCapthca = async () => {
     }
     else {
         return false;
-        console.log("")
     }
 }
 
@@ -88,6 +87,10 @@ const getNextButton = () => {
     return button
 }
 
+
+
+//console.log("...Start")
+
 document.addEventListener('keydown', function(event) {
   let button = null;
   if( event.target.nodeName == "INPUT" || event.target.nodeName == "TEXTAREA" ) return;
@@ -124,7 +127,7 @@ else {
 const authorName = (document.getElementsByClassName('user-link')[1]).textContent
 const input = document.createElement("input");
 input.type = "number";
-input.value = localStorage.getItem(authorName);
+input.value = Number(localStorage.getItem(authorName));
 input.id = "PagesComics";
 let fragment = document.getElementsByClassName('func-box')[0];
 fragment.appendChild(input);
@@ -155,9 +158,8 @@ async function delay(ms) {
   return await new Promise(resolve => setTimeout(resolve, ms));
 }
 
-window.addEventListener('load', async () => {
-//window.onload = async () => {
-    console.log("start")
+const beginPage = async () => {
+    console.log("Start")
     if (await CheckCapthca()) {
         console.log("Capthca")
         return;
@@ -171,10 +173,14 @@ window.addEventListener('load', async () => {
             break;
         }
     }
-    const pagesToDownload = localStorage.getItem((document.getElementsByClassName('user-link')[1]).textContent);
+    const pagesToDownload = Number(localStorage.getItem((document.getElementsByClassName('user-link')[1]).textContent))
+    //console.log(pagesToDownload)
+    //console.log("start")
     if (pagesToDownload > 0) {
+        //console.log(nextButton)
         await delay(1000)
         if (!nextButton || nextButton === null) {
+           //console.log(nextButton);
            localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, 0);
         } else {
             localStorage.setItem((document.getElementsByClassName('user-link')[1]).textContent, pagesToDownload - 1);
@@ -188,4 +194,6 @@ window.addEventListener('load', async () => {
             nextButton.click()
         }
     }
-})
+}
+
+const myTimeout = setTimeout(beginPage, 500);
