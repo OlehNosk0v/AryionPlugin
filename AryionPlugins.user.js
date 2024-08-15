@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AryionPlugins
 // @namespace    http://tampermonkey.net/
-// @version      1.0.11
+// @version      1.1
 // @description  A simple script for easy viewing of artwork and comics.
 // @license      MIT
 // @author       OlehNoskov
@@ -21,7 +21,12 @@ const DownloadComicPage = async () => {
     const image = await (await fetch(downloadLink)).blob();
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(image);
-    const title = (document.getElementsByClassName('user-link')[1]).textContent+" - "+(document.getElementsByClassName('g-box-title')[1]).textContent.replace("/", "-");
+    let title = await (document.getElementsByClassName('user-link')[1]).textContent+" - ";
+    let ID = localStorage.getItem("ID")
+    if (ID === "true") {
+        title += await document.querySelectorAll("div > a")[2].href.split("=")[1]+" - ";
+    }
+    title += await (document.getElementsByClassName('g-box-title')[1]).textContent.replace("/", "-")
     link.download = title;
 
     document.body.appendChild(link);
@@ -121,7 +126,7 @@ document.addEventListener('keydown', function(event) {
   }
 });
 if (await CheckCapthca()){
-    return;
+    return true;
 }
 else {
 const authorName = (document.getElementsByClassName('user-link')[1]).textContent
@@ -130,14 +135,51 @@ input.type = "number";
 input.value = Number(localStorage.getItem(authorName));
 input.id = "PagesComics";
 let fragment = document.getElementsByClassName('func-box')[0];
-fragment.appendChild(input);
+
+const DivBlock = document.createElement("div");
+DivBlock.setAttribute('style','display:flex;');
+const checkBox = document.createElement("input");
+checkBox.type = "checkbox";
+checkBox.value = "ID image";
+checkBox.value = "s";
+let ID = localStorage.getItem("ID")
+if (ID == null) {
+    localStorage.setItem("ID",false);
+}
+if (ID === "true") {
+ checkBox.checked = true;
+} else {
+    checkBox.checked = false;
+}
+
+checkBox.addEventListener('change', function() {
+        if(this.checked) {
+            localStorage.setItem("ID",true);
+        } else {
+            console.log("aaaa")
+            localStorage.setItem("ID", false)
+        };
+    });
+const text = document.createElement("div");
+text.innerHTML = "ID Image";
+
+
+
 const buttoninput = document.createElement("input");
 buttoninput.type = "button";
 buttoninput.id = "BUTTONDOWN"
 buttoninput.value = "Download";
 
-fragment = document.getElementsByClassName('func-box')[0];
+fragment.appendChild(input);
+DivBlock.appendChild(checkBox);
+DivBlock.appendChild(text);
+fragment.appendChild(DivBlock);
 fragment.appendChild(buttoninput);
+
+fragment.setAttribute('style','display:flex;; text-align: center; justify-content: center; grid-column-gap: 5px;')
+
+fragment = document.getElementsByClassName('func-box')[0];
+
 }
 
 
